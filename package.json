@@ -1,0 +1,32 @@
+{
+  "name": "@davepagurek/bezier-path",
+  "version": "0.0.1",
+  "main": "build/bezier-path.js",
+  "author": "Dave Pagurek <dave@davepagurek.com>",
+  "license": "MIT",
+  "types": "build/bezier-path.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davepagurek/bezier-path.git"
+  },
+  "bugs": {
+    "url": "https://github.com/davepagurek/glsl-autodiff/issues"
+  },
+  "homepage": "https://github.com/davepagurek/bezier-path",
+  "devDependencies": {
+    "@types/node": "^15.12.5",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4",
+    "webpack": "^5.41.1",
+    "webpack-cli": "^4.7.2"
+  },
+  "scripts": {
+    "build": "yarn generate:js",
+    "generate:js": "yarn run webpack",
+    "publish": "npm publish --access public"
+  },
+  "files": [
+    "build"
+  ]
+}

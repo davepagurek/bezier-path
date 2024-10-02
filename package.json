@@ -1,10 +1,10 @@
 {
   "name": "@davepagurek/bezier-path",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "build/bezier-path.js",
   "author": "Dave Pagurek <dave@davepagurek.com>",
   "license": "MIT",
-  "types": "build/bezier-path.d.ts",
+  "types": "build/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/davepagurek/bezier-path.git"

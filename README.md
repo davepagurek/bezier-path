@@ -15,13 +15,13 @@ Bezier curves aren't easy to sample by length. Normally, you sample in "Bezier s
 Add the library in a script tag:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.2"></script>
 ```
 
 Or on OpenProcessing, add the CDN link as a library:
 
 ```
-https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.1
+https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.2
 ```
 
 ### Creating paths

@@ -9,14 +9,23 @@
     "downlevelIteration": true,
     "declaration": true,
 
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictPropertyInitialization": true,
     "strictNullChecks": true
   },
-  "include": ["./src"],
+  "include": [
+    "src/**/*.ts",
+    "*.config.js"
+  ],
   "exclude": [
     "node_modules",
-    "*/node_modules"
+    "*/node_modules",
+    ".build",
+    ".yarn"
   ]
 }

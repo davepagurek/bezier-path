@@ -1,16 +1,15 @@
-import terser from '@rollup/plugin-terser';
+// @ts-check
+import terser from '@rollup/plugin-terser'
 import dts from 'rollup-plugin-dts'
 
-import pkg from './package.json' with { type: 'json' };
-import tsc from './tsconfig.json' with { type: 'json' };
+import pkg from './package.json' with { type: 'json' }
+import tsc from './tsconfig.json' with { type: 'json' }
 
-const input = `${tsc.compilerOptions.outDir}/index.js`
-const output = {
-  iife: pkg.jsdeliver, 
+export const input = `${tsc.compilerOptions.outDir}/index.js`
+export const output = {
+  iife: pkg.exports['.'].browser,
   esm: pkg.exports['.'].import,
 }
-
-const plugins = [terser()]
 
 export default [
   {
@@ -19,8 +18,8 @@ export default [
       file: output.iife,
       name: 'BezierPath',
       format: 'iife',
-      plugins
-    }
+      plugins: [terser()],
+    },
   },
   {
     input,
@@ -29,6 +28,6 @@ export default [
   {
     input: input.replace(/\.js$/, '.d.ts'),
     output: { file: output.esm.types, format: 'esm' },
-    plugins: [dts()]
-  }
+    plugins: [dts()],
+  },
 ]

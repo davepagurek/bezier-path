@@ -15,13 +15,13 @@ Bezier curves aren't easy to sample by length. Normally, you sample in "Bezier s
 Add the library in a script tag:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.4"></script>
+<script src="https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.5"></script>
 ```
 
 Or on OpenProcessing, add the CDN link as a library:
 
 ```
-https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.4
+https://cdn.jsdelivr.net/npm/@davepagurek/bezier-path@0.0.5
 ```
 > [!IMPORTANT]  
 > This package is ESM-only. It cannot be require()'d from CommonJS. [Read More](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c)

@@ -176,17 +176,16 @@ export class BezierPath {
         (1 - mix) * this.samples[idxA].pt.y + mix * this.samples[idxB].pt.y
       return { x, y }
     } else if (this.samples[idxA].segIdx !== this.samples[idxB].segIdx) {
-      // Find the t value between the two samples. This is not EXACTLY the point
-      // at the target distance along the path, but it's so close that it
-      // is effectively the same
-      if (mix < 0.5) {
+      const tDiff = 1 - this.samples[idxA].t + this.samples[idxB].t
+      const mixMid = tDiff > 0 ? (1 - this.samples[idxA].t) / tDiff : 0.5
+      if (mix < mixMid) {
         const segment = this.segments[this.samples[idxA].segIdx]
-        const mixA = 2 * mix
+        const mixA = mix / mixMid
         const t = (1 - mixA) * this.samples[idxA].t + mixA
         return segment.pointAtParameter(t)
       } else {
         const segment = this.segments[this.samples[idxB].segIdx]
-        const mixB = 2 * (mix - 0.5)
+        const mixB = (mix - mixMid) / (1 - mixMid)
         const t = mixB * this.samples[idxB].t
         return segment.pointAtParameter(t)
       }

@@ -79,39 +79,59 @@ export class BezierPath {
     this._jumps = []
     this.segmentStartEnds = [{ start: 0, end: 0 }]
     for (let i = 1; i < this.samples.length; i++) {
-      const prev = this.samples[i - 1]
-      const next = this.samples[i]
+      let prev = this.samples[i - 1]
+      let next = this.samples[i]
       if (next.segIdx === prev.segIdx) {
         this.segmentStartEnds[this.segmentStartEnds.length - 1].end = next.dist
       } else {
-        this.segmentStartEnds[next.segIdx] = {
-          start: next.dist,
-          end: next.dist,
+        const segmentStartDist = next.dist - Math.hypot(
+          this.segments[next.segIdx].A.x - next.pt.x,
+          this.segments[next.segIdx].A.y - next.pt.y,
+        )
+        if ((this.segments[prev.segIdx].D.x !== this.segments[next.segIdx].A.x ||
+            this.segments[prev.segIdx].D.y !== this.segments[next.segIdx].A.y)) {
+          const prevEnd = {
+            dist: segmentStartDist - 1e-8,
+            pt: this.segments[prev.segIdx].D,
+            tan: this.segments[prev.segIdx].tangentAtParameter(1),
+            segIdx: prev.segIdx,
+            t: 1,
+          }
+          const nextStart = {
+            dist: segmentStartDist + 1e-8,
+            pt: this.segments[next.segIdx].A,
+            tan: this.segments[next.segIdx].tangentAtParameter(0),
+            segIdx: next.segIdx,
+            t: 0,
+          }
+          this._jumps.push(segmentStartDist)
+          this.samples.splice(i, 0, prevEnd, nextStart)
+          this.segmentStartEnds[prevEnd.segIdx].end = prevEnd.dist
+          this.segmentStartEnds[nextStart.segIdx] = {
+            start: nextStart.dist,
+            end: next.dist,
+          }
+          i += 2
+        } else if (next.t !== 0) {
+          const nextStart = {
+            ...next,
+            t: 0,
+            pt: this.segments[next.segIdx].A,
+            tan: this.segments[next.segIdx].tangentAtParameter(0),
+            dist: segmentStartDist,
+          }
+          this.samples.splice(i, 0, nextStart)
+          this.segmentStartEnds[next.segIdx] = {
+            start: nextStart.dist,
+            end: next.dist,
+          }
+          i++
+        } else {
+          this.segmentStartEnds[next.segIdx] = {
+            start: next.dist,
+            end: next.dist,
+          }
         }
-      }
-      if (
-        prev.segIdx !== next.segIdx &&
-        (this.segments[prev.segIdx].D.x !== this.segments[next.segIdx].A.x ||
-          this.segments[prev.segIdx].D.y !== this.segments[next.segIdx].A.y)
-      ) {
-        const midDist = (prev.dist + next.dist) / 2
-        const prevEnd = {
-          dist: midDist - 1e-8,
-          pt: this.segments[prev.segIdx].D,
-          tan: this.segments[prev.segIdx].tangentAtParameter(1),
-          segIdx: prev.segIdx,
-          t: 1,
-        }
-        const nextStart = {
-          dist: midDist + 1e-8,
-          pt: this.segments[next.segIdx].A,
-          tan: this.segments[next.segIdx].tangentAtParameter(0),
-          segIdx: next.segIdx,
-          t: 0,
-        }
-        this._jumps.push(midDist)
-        this.samples.splice(i, 0, prevEnd, nextStart)
-        i += 2
       }
     }
   }

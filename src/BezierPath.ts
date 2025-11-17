@@ -84,10 +84,13 @@ export class BezierPath {
       if (next.segIdx === prev.segIdx) {
         this.segmentStartEnds[this.segmentStartEnds.length - 1].end = next.dist
       } else {
-        const segmentStartDist = next.dist - Math.hypot(
-          this.segments[next.segIdx].A.x - next.pt.x,
-          this.segments[next.segIdx].A.y - next.pt.y,
-        )
+        const segmentStartDist = Math.max(
+          next.dist - Math.hypot(
+            this.segments[next.segIdx].A.x - next.pt.x,
+            this.segments[next.segIdx].A.y - next.pt.y,
+          ),
+          prev.dist + 2e-8,
+        );
         if ((this.segments[prev.segIdx].D.x !== this.segments[next.segIdx].A.x ||
             this.segments[prev.segIdx].D.y !== this.segments[next.segIdx].A.y)) {
           const prevEnd = {

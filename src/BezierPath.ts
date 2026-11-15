@@ -47,8 +47,9 @@ export class BezierPath {
       const ts = times(numSegSamples + 1).map((i) => i / numSegSamples)
       const pts = ts.map((t) => seg.pointAtParameter(t))
       let dists: number[]
+      let numSegSamplesLoop = times(numSegSamples);
       for (let it = 0; it < 4; it++) {
-        dists = times(numSegSamples).map((i) =>
+        dists = numSegSamplesLoop.map((i) =>
           Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y),
         )
         const distErrors = dists.map((d) => d - avgDist)
@@ -62,6 +63,10 @@ export class BezierPath {
           pts[i] = seg.pointAtParameter(ts[i])
         }
       }
+      // Get final distances after the last loop iteration
+      dists = numSegSamplesLoop.map((i) =>
+        Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y),
+      )
 
       let lastOffset = 0
       pts.slice(1).forEach((pt, i) => {
